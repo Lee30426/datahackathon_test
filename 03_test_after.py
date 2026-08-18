@@ -201,7 +201,7 @@ print("y_hat:", y_hat.shape, "| critic:", critic.shape)
 
 anomaly = Anomaly()
 final_scores, true_index, true, predictions = anomaly.score_anomalies(
-    X, y_hat, critic, X_index, comb="comb")  # ★ 학습(multidata_train.py)과 동일한 comb로 통일 — 임계값 스케일 일치
+    X, y_hat, critic, X_index, comb="mult")  # ★ 학습(multidata_train.py)과 동일한 comb로 통일 — 임계값 스케일 일치
 final_scores = np.array(final_scores)
 anomalies = anomaly.find_anomalies(final_scores, true_index)  # [[start, stop, score], ...]
 print("anomalies:", anomalies)
