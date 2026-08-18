@@ -1,0 +1,23 @@
+# 일단 전부 무시
+*
+
+# 폴더 안을 들여다볼 수 있게 폴더는 허용
+!*/
+
+# 그다음, 코드 파일만 다시 추적하도록 예외 처리
+!*.py
+!*.ipynb
+
+# .gitignore 자기 자신은 추적 (무시 규칙도 기록해둬야 하니까)
+!.gitignore
+
+# 무거운/자동생성/데이터 폴더는 통째로 확실히 제외
+__pycache__/
+checkpoints/
+data/
+image/
+networks/
+kmap_1_GPU/
+다른주제들/
+Dataset_전자부품(배터리팩) 품질보증 AI 데이터셋/
+.vscode/

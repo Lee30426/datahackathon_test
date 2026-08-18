@@ -201,7 +201,7 @@ print("y_hat:", y_hat.shape, "| critic:", critic.shape)
 
 anomaly = Anomaly()
 final_scores, true_index, true, predictions = anomaly.score_anomalies(
-    X, y_hat, critic, X_index, comb="comb")  # ★ 학습(multidata_train.py)과 동일한 comb로 통일 — 임계값 스케일 일치
+    X, y_hat, critic, X_index, comb="mult")  # ★ 학습(multidata_train.py)과 동일한 comb로 통일 — 임계값 스케일 일치
 final_scores = np.array(final_scores)
 anomalies = anomaly.find_anomalies(final_scores, true_index)  # [[start, stop, score], ...]
 print("anomalies:", anomalies)
@@ -233,7 +233,7 @@ print("train 기준선(참고, 시각화용): mu=%.4f sigma=%.4f thr=%.4f (k=%.2
 
 gt   = np.array(known_anomalies['label'][:pred_length])
 pred = np.array(pred_bin)
-q
+
 tp = int(np.sum((pred == 1) & (gt == 1))); tn = int(np.sum((pred == 0) & (gt == 0)))
 fp = int(np.sum((pred == 1) & (gt == 0))); fn = int(np.sum((pred == 0) & (gt == 1)))
 

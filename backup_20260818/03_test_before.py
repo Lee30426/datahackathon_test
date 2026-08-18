@@ -201,7 +201,7 @@ print("y_hat:", y_hat.shape, "| critic:", critic.shape)
 
 anomaly = Anomaly()
 final_scores, true_index, true, predictions = anomaly.score_anomalies(
-    X, y_hat, critic, X_index, comb="comb")  # ★ 학습(multidata_train.py)과 동일한 comb로 통일 — 임계값 스케일 일치
+    X, y_hat, critic, X_index, comb="rec")
 final_scores = np.array(final_scores)
 anomalies = anomaly.find_anomalies(final_scores, true_index)  # [[start, stop, score], ...]
 print("anomalies:", anomalies)
@@ -215,25 +215,25 @@ avg = np.average(final_scores)
 sigma = math.sqrt(np.sum((final_scores - avg) ** 2) / len(final_scores))
 Z_score1 = (final_scores - avg) / sigma
 
-# find_anomalies()가 찾은 구간(패딩+pruning까지 적용된 결과)을 실제 평가에 사용
-# (이전엔 anomalies를 계산만 해두고 print만 하고, 평가는 별도의 단순 point-wise threshold로 했었음 — 불일치 수정)
-pred_bin = [0] * pred_length
-for a in anomalies:
-    start, stop = int(a[0]), int(a[1])
-    for k in range(start - 1, stop):
-        if 0 <= k < pred_length:
-            pred_bin[k] = 1
-
+# pred_bin = [0] * pred_length
+# for a in anomalies:
+#     start, stop = int(a[0]), int(a[1])
+#     for k in range(start - 1, stop):
+#         if 0 <= k < pred_length:
+#             pred_bin[k] = 1
 final_scores_train = np.load('cache/final_scores_train.npy')   # 학습이 저장해둔 정상 점수
-K_TRAIN = 1.42                                                  # ★ 시각화 기준선(train thr)용 — 평가에는 미사용
+K_TRAIN = 1.42                                                  # ★ 이 값을 조절 (민감도 손잡이)
 mu, sigma = final_scores_train.mean(), final_scores_train.std()
 threshold = mu + K_TRAIN * sigma
-print("train 기준선(참고, 시각화용): mu=%.4f sigma=%.4f thr=%.4f (k=%.2f)"
+print("train 기준 임계값: mu=%.4f sigma=%.4f thr=%.4f (k=%.2f)"
       % (mu, sigma, threshold, K_TRAIN))
 
+# gt   = np.array(known_anomalies['label'][:pred_length])
+# pred = np.array(pred_bin)
+
 gt   = np.array(known_anomalies['label'][:pred_length])
-pred = np.array(pred_bin)
-q
+pred = (final_scores > threshold).astype(int)
+
 tp = int(np.sum((pred == 1) & (gt == 1))); tn = int(np.sum((pred == 0) & (gt == 0)))
 fp = int(np.sum((pred == 1) & (gt == 0))); fn = int(np.sum((pred == 0) & (gt == 1)))
 
