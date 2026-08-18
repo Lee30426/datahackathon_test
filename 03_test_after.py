@@ -275,7 +275,7 @@ length_anom = len(pred)
 print("gt  :", anomaly_gt)
 print("pred:", anomaly_pred)
 
-
+print("test")
 # 03_test에서 끝까지
 
 # %% [markdown]
