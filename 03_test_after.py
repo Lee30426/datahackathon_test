@@ -276,6 +276,7 @@ print("gt  :", anomaly_gt)
 print("pred:", anomaly_pred)
 
 print("test")
+print("test2")
 # 03_test에서 끝까지
 
 # %% [markdown]
