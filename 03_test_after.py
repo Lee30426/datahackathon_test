@@ -278,6 +278,7 @@ print("pred:", anomaly_pred)
 print("test")
 print("test2")  
 print("test_nan")
+print("test_push"  )
 
 # 03_test에서 끝까지
 
